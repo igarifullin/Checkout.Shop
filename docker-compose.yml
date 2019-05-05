@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+
+  sql.data:
+    image: microsoft/mssql-server-linux:2017-latest
+
+  cache.data:
+    image: redis:alpine
+
+  shop.api:
+    image: ${REGISTRY:-eshop}/shop.api:${PLATFORM:-linux}-${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/presentation/Shop.Web/Dockerfile    
+    depends_on:
+      - cache.data
+      - sql.data

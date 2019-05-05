@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  redis-data-test:
+    image: redis:alpine
+
+  sql-data-test:
+    image: microsoft/mssql-server-linux:2017-latest
+
+  shop-web-test:
+    image: ${REGISTRY:-eshop}/shop-web-test:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/presentation/Shop.Web/Dockerfile
+      target: functionaltest
+    depends_on:
+      - redis-data-test
+      - sql-data-test
+    volumes: 
+      - ${BUILD_ARTIFACTSTAGINGDIRECTORY:-./tests-results/}:/tests
+
+  shop-web-unit-test:
+    image: ${REGISTRY:-eshop}/shop-web-test:${TAG:-latest}
+    build:
+      context: .
+      dockerfile: src/presentation/Shop.Web/Dockerfile
+      target: unittest
+    depends_on:
+      - redis-data-test
+      - sql-data-test
+    volumes: 
+      - ${BUILD_ARTIFACTSTAGINGDIRECTORY:-./tests-results/}:/tests

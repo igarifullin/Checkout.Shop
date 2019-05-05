@@ -1,0 +1,10 @@
+version: '3.4'
+
+services:
+  sql.data:
+    image: microsoft/mssql-server-linux:2017-latest
+
+  cache.data:
+    image: redis
+    ports:
+      - "6379:6379"
