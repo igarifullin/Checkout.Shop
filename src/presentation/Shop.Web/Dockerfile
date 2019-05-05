@@ -5,8 +5,6 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2 AS build
 WORKDIR /src
 
-COPY scripts scripts/
-
 COPY src/*/*/*.csproj /src/csproj-files/
 COPY tests/*/*/*.csproj /src/csproj-files/
 
